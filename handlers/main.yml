@@ -1,0 +1,6 @@
+---
+- name: restart samba
+  command: service smb restart
+
+- name: restart sssd
+  command: service sssd restart

@@ -1,0 +1,45 @@
+[domain/{{ adauth_realm | lower }}]
+debug_level = 2
+auth_provider = ad
+chpass_provider = ad
+id_provider = ad
+
+cache_credentials = true
+krb5_canonicalize = false
+krb5_kpasswd = {{ adauth_pdc }}
+krb5_realm = {{ adauth_realm }}
+krb5_server = {{ adauth_pdc }}
+
+ldap_disable_referrals = true
+ldap_force_upper_case_realm = true
+ldap_id_mapping = True
+
+ldap_sasl_authid = {{ ansible_hostname | upper }}$@{{ adauth_realm }}
+ldap_sasl_mech = GSSAPI
+
+ldap_schema = ad
+ldap_search_base = {{ adauth_ldap_base }}
+ad_server = {{ adauth_pdc }}
+ad_backup_server = {{ adauth_sdc }}
+
+access_provider = ldap
+ldap_access_order = filter, expire
+ldap_account_expire_policy = ad
+ldap_access_filter = (memberOf=CN=UnixServers,OU={{ adauth_server_ou }},{{ adauth_ldap_base }})
+
+min_id = 2000
+
+[sssd]
+services = nss, pam
+config_file_version = 2
+debug_level = 2
+domains = {{ adauth_realm | lower }}
+
+[nss]
+debug_level = 2
+fallback_homedir = /home/%d/%u
+default_shell = /bin/bash
+filter_users = root
+filter_groups = root
+
+[pam]

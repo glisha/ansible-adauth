@@ -1,0 +1,23 @@
+---
+- name: Install Samba
+  yum: name={{ item }} state=present
+  with_items:
+    - samba
+    - samba-client
+    - samba-common
+    - samba-winbind
+    - samba-winbind-clients
+
+- name: Configure Samba as a domain member
+  template: src=smb.conf.j2 dest=/etc/samba/smb.conf
+            owner=root group=root mode=644
+  notify: restart samba
+
+- name: Ensure Samba is started and enabled on boot
+  service: name=smb state=started enabled=yes
+
+- name: Join AD with Samba to generate the keytab
+  command: /usr/bin/net ads join createcomputer={{ adauth_server_ou }} -U "{{ adauth_username }}"%"{{ adauth_password }}"
+  args:
+    creates: /etc/krb5.keytab
+

@@ -1,0 +1,31 @@
+---
+- name: Install SSSD and related
+  yum: pkg={{ item }} state=present
+  with_items:
+    - sssd
+    - oddjob-mkhomedir
+    - authconfig
+
+- name: Check if authconfig did a previous run
+  command: "/bin/egrep '^auth.*sufficient.*pam_sss.so' /etc/pam.d/system-auth"
+  register: authconfig_run
+  changed_when: false
+  ignore_errors: true
+
+- name: Configure server to use SSSD for authentication 
+  # TODO: https://fedorahosted.org/sssd/wiki/Configuring_sssd_with_ad_server#ConfigureNSSPAMmanually
+  command: /usr/sbin/authconfig --enablesssd --enablesssdauth --enablemkhomedir --update --nostart
+  #when: authconfig_run.stdout.find("pam_sss.so") == -1
+  when: authconfig_run.rc != 0
+
+- name: Configure SSSD to use AD for authentication
+  template: src=sssd.conf.j2 dest=/etc/sssd/sssd.conf
+            owner=root group=root mode=0600
+  notify: restart sssd
+
+- name: Ensure SSSD is started and enabled on boot
+  service: name=sssd state=started enabled=yes
+
+- name: Ensure oddjobd for mkhomedir is started and enabled on boot
+  service: name=oddjobd state=started enabled=yes
+

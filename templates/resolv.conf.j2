@@ -1,0 +1,4 @@
+domain {{ adauth_realm | lower }}
+search {{ adauth_realm | lower }}
+nameserver {{ adauth_pdc_ip }}
+nameserver {{ adauth_sdc_ip }}

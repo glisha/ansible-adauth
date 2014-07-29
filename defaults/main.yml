@@ -1,0 +1,11 @@
+---
+adauth_workgroup: "EXAMPLE"
+adauth_realm: "EXAMPLE.COM"
+adauth_pdc: "pdc1.example.com"
+adauth_pdc_ip: "192.168.1.1"
+adauth_sdc: "sdc1.example.com"
+adauth_sdc_ip: "192.168.1.2"
+adauth_ldap_base: "DC=example,DC=com"
+adauth_username: "Username with AD join privs."
+adauth_password: "password"
+

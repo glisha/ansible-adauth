@@ -1,0 +1,10 @@
+[global]
+   workgroup = {{ adauth_workgroup }}
+   client signing = yes
+   client use spnego = yes
+   kerberos method = secrets and keytab
+   log file = /var/log/samba/%m.log
+   password server = {{ adauth_pdc }}
+   realm = {{ adauth_realm }}
+   security = ads
+
