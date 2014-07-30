@@ -14,7 +14,7 @@
 
 - name: Configure server to use SSSD for authentication 
   # TODO: https://fedorahosted.org/sssd/wiki/Configuring_sssd_with_ad_server#ConfigureNSSPAMmanually
-  command: /usr/sbin/authconfig --enablesssd --enablesssdauth --enablemkhomedir --update --nostart
+  command: /usr/sbin/authconfig --enablesssd --enablesssdauth --enablemkhomedir --updateall --nostart
   #when: authconfig_run.stdout.find("pam_sss.so") == -1
   when: authconfig_run.rc != 0
 
