@@ -8,4 +8,8 @@ adauth_sdc_ip: "192.168.1.2"
 adauth_ldap_base: "DC=example,DC=com"
 adauth_username: "Username with AD join privs."
 adauth_password: "password"
+adauth_server_ou: "Computers"
+adauth_access_filter: "(&(objectClass=user)(memberOf=CN=UnixServers,OU=UnixServers,DC=example,DC=com))"
+#adauth_access_filter: "(&(objectClass=user)(|(memberOf=CN=OSunix,OU=UnixServers,DC=example,DC=com)(memberOf=CN=DBAunix,OU=UnixServers,DC=example,DC=com)))"
+#adauth_access_filter: "(&(objectClass=user)(|(sAMAccountName=john)(sAMAccountName=merry)))"
 

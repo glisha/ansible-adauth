@@ -25,7 +25,7 @@ ad_backup_server = {{ adauth_sdc }}
 access_provider = ldap
 ldap_access_order = filter, expire
 ldap_account_expire_policy = ad
-ldap_access_filter = (memberOf=CN=UnixServers,OU={{ adauth_server_ou }},{{ adauth_ldap_base }})
+ldap_access_filter = {{ adauth_access_filter }}
 
 min_id = 2000
 
